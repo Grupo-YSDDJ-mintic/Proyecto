@@ -8,7 +8,7 @@ public class MovimientoDinero {
         this.usuario = usuario;
     }
 
-    public int getMontoMovimiento() {
+    public double getMontoMovimiento() {
         return montoMovimiento;
     }
 
