@@ -12,7 +12,7 @@ public class MovimientoDinero {
         return montoMovimiento;
     }
 
-    public void setMontoMovimiento(int montoMovimiento) {
+    public void setMontoMovimiento(double montoMovimiento) {
         this.montoMovimiento = montoMovimiento;
     }
 
