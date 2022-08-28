@@ -18,8 +18,7 @@ public class ProjectoEjemplo {
         
         ejemploMovimiento.setMontoMovimiento(-150000);
         ejemploMovimiento.setMotivoMovimiento("Pago Ejemplo");
-        ejemploMovimiento.setUsuario("Usuario Ejemplo");
-        
+                
         System.out.println("El nombre de la empresa es:");
         System.out.println(ejemploEmpresa.getNombre());
         
