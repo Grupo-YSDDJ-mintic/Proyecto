@@ -6,18 +6,30 @@ public class Empleado {
     
     private String nombreEmpleado;
     private String correoEmpleado;
-    private String empresaEmpleado;
-    private String rolEmpleado;
+    private Empresa empresaEmpleado;
+    private RolesEmpleado rol ;
+    
+    //Contador
+    
+    static int generador = 1;
+ 
+    int id;
+    public Empleado() {
+        id = generador++;
+    }
+    
     
     //Constructor
 
-    public Empleado(String nombreEmpleado, String correoEmpleado, String empresaEmpleado, String rolEmpleado) {
+    public Empleado(String nombreEmpleado, String correoEmpleado, Empresa empresaEmpleado, RolesEmpleado rol) {
         this.nombreEmpleado = nombreEmpleado;
         this.correoEmpleado = correoEmpleado;
         this.empresaEmpleado = empresaEmpleado;
-        this.rolEmpleado = rolEmpleado;
+        this.rol = rol;
     }
-    
+
+
+
     //Set & Get
 
     public String getNombreEmpleado() {
@@ -36,23 +48,22 @@ public class Empleado {
         this.correoEmpleado = correoEmpleado;
     }
 
-    public String getEmpresaEmpleado() {
+    public Empresa getEmpresaEmpleado() {
         return empresaEmpleado;
     }
 
-    public void setEmpresaEmpleado(String empresaEmpleado) {
+    public void setEmpresaEmpleado(Empresa empresaEmpleado) {
         this.empresaEmpleado = empresaEmpleado;
     }
 
-    public String getRolEmpleado() {
-        return rolEmpleado;
+    public RolesEmpleado getRol() {
+        return rol;
     }
 
-    public void setRolEmpleado(String rolEmpleado) {
-        this.rolEmpleado = rolEmpleado;
+    public void setRol(RolesEmpleado rol) {
+        this.rol = rol;
     }
-    
-    
+
     
     
 }
