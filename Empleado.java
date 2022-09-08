@@ -1,6 +1,14 @@
 package clases;
 
 public class Empleado {
+
+    public static int getGenerador() {
+        return generador;
+    }
+
+    public static void setGenerador(int aGenerador) {
+        generador = aGenerador;
+    }
     
     //Atributos
     
@@ -11,9 +19,8 @@ public class Empleado {
     
     //Contador
     
-    static int generador = 1;
- 
-    int id;
+    private static int generador = 1;
+    private int id;
     public Empleado() {
         id = generador++;
     }
@@ -21,16 +28,26 @@ public class Empleado {
     
     //Constructor
 
-    public Empleado(String nombreEmpleado, String correoEmpleado, Empresa empresaEmpleado, RolesEmpleado rol) {
+    public Empleado(String nombreEmpleado, String correoEmpleado, Empresa empresaEmpleado, RolesEmpleado rol, int id) {
         this.nombreEmpleado = nombreEmpleado;
         this.correoEmpleado = correoEmpleado;
         this.empresaEmpleado = empresaEmpleado;
         this.rol = rol;
+        this.id = id;
     }
 
 
 
+
     //Set & Get
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNombreEmpleado() {
         return nombreEmpleado;
