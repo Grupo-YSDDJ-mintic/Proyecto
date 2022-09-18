@@ -1,54 +1,76 @@
-package edu.udea.project.entities;
+package edu.udea.webapp.entities;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "Movimientos")
 public class MovimientoDinero {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "idMovimiento")
     private long id;
-    private float montoMovimiento;
-    private String motivoMovimiento;
-    private Empleado empleadoEncargado;
-    private Empresa empresaEncargada;
 
-    public MovimientoDinero(float montoMovimiento, String motivoMovimiento, Empleado empleadoEncargado) {
-        this.montoMovimiento = montoMovimiento;
-        this.motivoMovimiento = motivoMovimiento;
-        this.empleadoEncargado = empleadoEncargado;
+    @Column(name = "motivo")
+    private String motivo;
+
+    @Column(name = "monto")
+    private float monto;
+
+    @ManyToOne
+    private Empresa empresa;
+
+    @ManyToOne
+    private Empleado empleado;
+
+
+    public MovimientoDinero(long id, String motivo, float monto, Empleado empleado, Empresa empresa) {
+        this.id = id;
+        this.motivo = motivo;
+        this.monto = monto;
+        this.empleado = empleado;
+        this.empresa = empresa;
     }
 
-    public float getMontoMovimiento() {
-        return montoMovimiento;
+    public MovimientoDinero() {}
+
+    public long getId() {
+        return id;
     }
 
-    public void setMontoMovimiento(float montoMovimiento) {
-        this.montoMovimiento = montoMovimiento;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getMotivoMovimiento() {
-        return motivoMovimiento;
+    public String getMotivo() {
+        return motivo;
     }
 
-    public void setMotivoMovimiento(String motivoMovimiento) {
-        this.motivoMovimiento = motivoMovimiento;
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 
-    public Empleado getEmpleadoEncargado() {
-        return empleadoEncargado;
+    public float getMonto() {
+        return monto;
     }
 
-    public void setEmpleadoEncargado(Empleado empleadoEncargado) {
-        this.empleadoEncargado = empleadoEncargado;
+    public void setMonto(float monto) {
+        this.monto = monto;
     }
 
-    public Empresa getEmpresaEncargada() {
-        return empresaEncargada;
+    public Empleado getEmpleado() {
+        return empleado;
     }
 
-    public void setEmpresaEncargada(Empresa empresaEncargada) {
-        this.empresaEncargada = empresaEncargada;
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 }
