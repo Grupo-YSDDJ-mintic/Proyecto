@@ -18,15 +18,6 @@ public class ControladorMovimiento {
     public ResponseEntity<Object> getMovimientos(@PathVariable(name = "id") long id) {
        return new ResponseEntity<>(gestorMovimiento.getMovimientos(id), HttpStatus.ACCEPTED);
 
-        /* try {
-            List<MovimientoDinero> movimientosEmpresa = gestorMovimiento.getMovimientos(id);
-
-            return new ResponseEntity<>(movimientosEmpresa, HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        */
     }
 
     @GetMapping("/enterprises/{id}/movements/{idMov}")
