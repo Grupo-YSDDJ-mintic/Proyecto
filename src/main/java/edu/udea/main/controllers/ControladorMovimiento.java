@@ -1,8 +1,8 @@
-package edu.udea.webapp.controllers;
+package edu.udea.main.controllers;
 
-import edu.udea.webapp.entities.MovimientoDinero;
-import edu.udea.webapp.entities.ObjectoRespuesta;
-import edu.udea.webapp.services.GestorMovimientoDinero;
+import edu.udea.main.entities.MovimientoDinero;
+import edu.udea.main.entities.ObjetoRespuesta;
+import edu.udea.main.services.GestorMovimientoDinero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,12 +41,12 @@ public class ControladorMovimiento {
     }
 
     @PatchMapping("/enterprises/{idEmpresa}/movements/{idMov}")
-    public ResponseEntity<ObjectoRespuesta> patchMovimiento(@RequestBody MovimientoDinero editarMovimiento, @PathVariable(name = "idEmpresa") long idEmpresa, @PathVariable(name = "idMov") long idMovimiento) {
+    public ResponseEntity<ObjetoRespuesta> patchMovimiento(@RequestBody MovimientoDinero editarMovimiento, @PathVariable(name = "idEmpresa") long idEmpresa, @PathVariable(name = "idMov") long idMovimiento) {
         try {
             Object movimientoFinal = gestorMovimiento.patchMovimiento(editarMovimiento, idEmpresa, idMovimiento);
-            return new ResponseEntity<>(new ObjectoRespuesta("Datos de movimiento modificados", movimientoFinal), HttpStatus.OK);
+            return new ResponseEntity<>(new ObjetoRespuesta("Datos de movimiento modificados", movimientoFinal), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(new ObjectoRespuesta(e.getMessage(), editarMovimiento), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ObjetoRespuesta(e.getMessage(), editarMovimiento), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

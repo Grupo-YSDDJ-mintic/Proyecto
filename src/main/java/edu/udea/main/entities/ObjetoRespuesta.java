@@ -1,11 +1,11 @@
-package edu.udea.webapp.entities;
+package edu.udea.main.entities;
 
-public class ObjectoRespuesta {
+public class ObjetoRespuesta {
 
     private String mensaje;
     private Object objeto;
 
-    public ObjectoRespuesta(String mensaje, Object objeto) {
+    public ObjetoRespuesta(String mensaje, Object objeto) {
         this.mensaje = mensaje;
         this.objeto = objeto;
     }

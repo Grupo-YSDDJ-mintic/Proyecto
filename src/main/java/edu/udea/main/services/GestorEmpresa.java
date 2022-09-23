@@ -1,106 +1,49 @@
 package edu.udea.main.services;
 
-import edu.udea.main.entities.Empleado;
 import edu.udea.main.entities.Empresa;
-import edu.udea.main.entities.MovimientoDinero;
+import edu.udea.main.repositories.EmpresaRepositorio;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
 
+@Service
 public class GestorEmpresa {
 
-    //ArrayList provicional
-    private ArrayList<Empresa> empresas;
+    @Autowired
+    private EmpresaRepositorio empresaRepositorio;
 
-    //Constructor
-    public GestorEmpresa() {
-        this.empresas = new ArrayList<>();
-        this.empresas.add(new Empresa("Apple", "Calle falsa 123", "331222", "11102"));
+    public List<Empresa> getEmpresas(){
+        return empresaRepositorio.findAll();
     }
 
-    //Muestra todas las empresas
-    public ArrayList<Empresa> getEmpresas() {
-        return empresas;
+    public Empresa save(Empresa empresa){
+        return empresaRepositorio.save(empresa);
     }
 
-    //Esto no tiene utilidad de momento
-    public void setEmpresas(ArrayList<Empresa> empresas) {
-        this.empresas = empresas;
+    public Empresa getEmpresa(Long id) {
+        return empresaRepositorio.findById(id).get();
     }
 
-    //Se obtienen todas las empresas en el arrayList
-    public Empresa getEmpresa(String laEmpresa) throws Exception {
-        for (Empresa miEmpresa : this.empresas) {
-            if (miEmpresa.getNombreEmpresa().equals(laEmpresa)) {
-                return miEmpresa;
-            }
+    public Empresa updateEmpresa(Empresa empresa_update, Long id){
+        Empresa empresa_upd = getEmpresa(id);
+        if (empresa_update.getNit() != null && !empresa_update.getNit().equals("")){
+            empresa_upd.setNit(empresa_update.getNit());
         }
-
-        throw new Exception("Empresa no existe");
+        if (empresa_update.getNombre() != null && !empresa_update.getNombre().equals("")){
+            empresa_upd.setNombre(empresa_update.getNombre());
+        }
+        if (empresa_update.getDireccion() != null && !empresa_update.getDireccion().equals("")){
+            empresa_upd.setDireccion(empresa_update.getDireccion());
+        }
+        if (empresa_update.getTelefono() != null && !empresa_update.getTelefono().equals("")){
+            empresa_upd.setTelefono(empresa_update.getTelefono());
+        }
+        return empresaRepositorio.save(empresa_upd);
     }
 
-    //Método put para crear nuevas empresas
-    public String setEmpresa(Empresa nuevaEmpresa) throws Exception {
-        try {
-            getEmpresa(nuevaEmpresa.getNombreEmpresa());
-        } catch (Exception e) {
-            this.empresas.add(nuevaEmpresa);
-            return "Creación de empresa exitosa";
-        }
-
-        throw new Exception("Empresa ya existe");
-    }
-
-    //Método patch para editar algunos atributos de la empresa
-    public Empresa patchEmpresa(Empresa actualizarEmpresa, String id) throws Exception {
-        try {
-            Empresa empresaActualizada = getEmpresa(id);
-
-            if ((actualizarEmpresa.getNombreEmpresa() != null) && (actualizarEmpresa.getNombreEmpresa() != "")) {
-                empresaActualizada.setNombreEmpresa(actualizarEmpresa.getNombreEmpresa());
-            }
-
-            if ((actualizarEmpresa.getTelefonoEmpresa() != null) && (actualizarEmpresa.getTelefonoEmpresa() != "")) {
-                empresaActualizada.setTelefonoEmpresa(actualizarEmpresa.getTelefonoEmpresa());
-            }
-
-            if ((actualizarEmpresa.getDireccionEmpresa() != null) && (actualizarEmpresa.getDireccionEmpresa() != "")) {
-                empresaActualizada.setDireccionEmpresa(actualizarEmpresa.getDireccionEmpresa());
-            }
-
-            if ((actualizarEmpresa.getNitEmpresa() != null) && (actualizarEmpresa.getNitEmpresa() != "")) {
-                empresaActualizada.setNitEmpresa(actualizarEmpresa.getNitEmpresa());
-            }
-
-            return empresaActualizada;
-
-        } catch (Exception e) {
-            throw new Exception("No existe la empresa");
-        }
-    }
-
-    public Empresa putEmpresa(Empresa nuevaEmpresa, String id) throws Exception {
-        try {
-            Empresa nuevaEmpresaFinal = getEmpresa(id);
-            nuevaEmpresaFinal.setNombreEmpresa(nuevaEmpresa.getNombreEmpresa());
-            nuevaEmpresaFinal.setTelefonoEmpresa(nuevaEmpresa.getTelefonoEmpresa());
-            nuevaEmpresaFinal.setDireccionEmpresa(nuevaEmpresa.getDireccionEmpresa());
-            nuevaEmpresaFinal.setNitEmpresa(nuevaEmpresa.getNitEmpresa());
-
-            return nuevaEmpresaFinal;
-        } catch (Exception e) {
-            throw new Exception("No existe la empresa");
-        }
-    }
-
-    public String deleteEmpresa(String id) throws Exception {
-        try {
-            empresas.remove(getEmpresa(id));
-            return "Empresa eliminada";
-
-        } catch (Exception e) {
-            throw new Exception("No se encuentra empresa a eliminar");
-        }
-
+    public void deleteEmpresa(Long id){
+        empresaRepositorio.deleteById(id);
     }
 
     }
