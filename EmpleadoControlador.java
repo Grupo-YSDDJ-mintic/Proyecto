@@ -1,8 +1,8 @@
 package edu.udea.main.controllers;
 
-import edu.udea.main.entities.Empresa;
+import edu.udea.main.entities.Empleado;
 import edu.udea.main.entities.ObjetoRespuesta;
-import edu.udea.main.services.GestorEmpresa;
+import edu.udea.main.services.GestorEmpleado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class EmpresaControlador {
+public class EmpleadoControlador {
 
     @Autowired
-    private GestorEmpresa gestorEmpresa;
+    private GestorEmpleado gestorEmpleado;
 
     @GetMapping("/employes")
     public ResponseEntity<List<Empleado>> getEmpleados(){
