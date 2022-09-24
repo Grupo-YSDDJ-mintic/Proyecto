@@ -1,105 +1,60 @@
-package edu.udea.main.services;
+package edu.udea.webapp.services;
 
-import clases.Empleado;
-import edu.udea.main.entities.Empleado;
-import edu.udea.main.entities.MovimientoDinero;
+import edu.udea.webapp.entities.Empleado;
+import edu.udea.webapp.repositories.RepositorioEmpleado;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-public class GestorEmpleado {
+@Service
+public class GestorEmpleado implements GestorEmpleadoInterface {
 
-    //ArrayList provicional
-    private ArrayList<Empleado> empleados;
+    @Autowired
+    private RepositorioEmpleado repositorio;
 
-    //Constructor
-    public GestorEmpleado() {
-        this.empleados = new ArrayList<>();
-        this.empleados.add(new Empleado("Pepito Perez", "pepitoperez@gmail.com", "Apple", 01/02/2010,"01/02/2000,"Adm","500000""));
+    @Override
+    public List<Empleado> getUsers() {
+        return repositorio.findAll();
     }
 
-    //Mostrar todos los empleados
-
-    public ArrayList<Empleado> getEmpleado() {
-        return empleados;
-    }
-
-    //Consulta de empleados
-
-    public Empleado getEmpleado(String consultaEmpleado) throws Exception {
-        for (Empleado empleado : this.empleados) {
-            if (empleado.getNombreEmpleado().equals(consultaEmpleado)) {
-                return empleado;
-            }
+    @Override
+    public Empleado getUser(long id) throws Exception {
+        Optional<Empleado> usuarioBd = repositorio.findById(id);
+        if(usuarioBd.isPresent()) {
+            return usuarioBd.get();
         }
 
-        throw new Exception("Empresa no existe");
+        throw new Exception("Usuario no encontrado");
     }
 
-    // Creación de empleados
+    @Override
+    public String postUser(Empleado nuevoEmpleado) {
+        repositorio.save(nuevoEmpleado);
+        return "Nuevo empleado añadido";
+    }
 
-    public String setEmpleado(Empleado empleado_parametro) throws Exception {
-        try {
-            //Consulta de existencia de usuario
-            getEmpleado(empleado_parametro.getNombreEmpleado());
-        } catch (Exception e) {
-            //Código para crear un usuario
-            this.empleados.add(empleado_parametro);
-            return "Creacion de usuario exitosa";
+    @Override
+    public Empleado patchUser(Empleado verificarEmpleado, long id) throws Exception {
+        Empleado empleadoBd = getUser(id);
+
+        if(verificarEmpleado.getNombreEmpleado() != null && !verificarEmpleado.getNombreEmpleado().equals("")) {
+            empleadoBd.setNombreEmpleado(verificarEmpleado.getNombreEmpleado());
         }
-        //Error si el usuario ya existe
-        throw new Exception("Usuario Existe");
-    }
-
-    // Edición de empleado
-
-    //USANDO PATCH
-
-    public Empleado updateUsuario(Empleado empleado_update, String id) throws Exception {
-        try {
-            Empleado empleado_bd = getEmpleado(id);
-
-            if (empleado_update.getNombreEmpleado() != null && !empleado_update.getNombreEmpleado().equals("")) {
-                empleado_bd.setNombreEmpleado(empleado_update.getNombreEmpleado());
-            }
-            if (empleado_update.getCorreoEmpleado() != null && !empleado_update.getCorreoEmpleado().equals("")) {
-                empleado_bd.setCorreoEmpleado(empleado_update.getCorreoEmpleado());
-            }
-            if (empleado_update.getUpdateAt() != null && !empleado_update.getUpdateAt().equals("")) {
-                empleado_bd.setUpdateAt(empleado_update.getUpdateAt());
-            }
-            if(empleado_update.getCreatedAt() != null && !empleado_update.getCreatedAt().equals("")){
-                empleado_bd.setCreatedAt(empleado_update.getCreatedAt());
-            }
-            if (empleado_update.getRolEmpleado() != null && !empleado_update.getRolEmpleado().equals("")){
-                empleado_bd.setRolEmpleado(empleado_update.getRolEmpleado());
-            }
-            if(empleado_update.getTransaccion() != null && !empleado_update.getTransaccion().equals("")){
-                empleado_bd.setTransaccion(empleado_update.getTransaccion());
-            }
-
-            return empleado_bd;
-        } catch (Exception e) {
-            throw new Exception("Usuario NO existe, fallo actualización de datos");
+        if(verificarEmpleado.getCorreoEmpleado() != null && !verificarEmpleado.getCorreoEmpleado().equals("")) {
+            empleadoBd.setCorreoEmpleado(verificarEmpleado.getCorreoEmpleado());
         }
-    }
-
-
-    //Eliminación de Empleado
-
-    public void setEmpleados(ArrayList<Empleado> empleados) {
-        this.empleados = empleados;
-    }
-
-    public String deleteEmpleado(String id) throws Exception {
-        try {
-            Empleado empleado = getEmpleado(id);
-
-            this.empleados.remove(empleado);
-            return "Usuario eliminado exitosamente.";
-
-        } catch (Exception e) {
-            throw new Exception("Usuario NO existe para eliminar");
+        if(verificarEmpleado.getRolEmpleado() != null && !verificarEmpleado.getRolEmpleado().equals("")) {
+            empleadoBd.setRolEmpleado(verificarEmpleado.getRolEmpleado());
         }
+
+        return repositorio.save(empleadoBd);
     }
 
+    @Override
+    public String deleteUser(long id) {
+        repositorio.deleteById(id);
+        return "Empleado Eliminado";
+    }
 }
